@@ -1,14 +1,20 @@
 const express = require('express')
 const puppeteer = require('puppeteer');
 const app = express();
+/*
+app.use(express.static(path.join(__dirname, 'public')))
+    .set('views', path.join(__dirname, 'views'))
+    .set('view engine', 'ejs')
+    .get('/', (req, res) => res.render('pages/index'))
+
+*/
 app.get('/user/:user', async function (req, res) {
     let browser = await puppeteer.launch({ headless: true, devtools: false, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
     let page = await browser.newPage();
     await page.goto(`https://twitter.com/${req['params']['user']}`, { waitUntil: 'networkidle0' });
     try {
-        let [ele1] = await page.$x(process.env.XPATH1);
+        let [ele1] = await page.$x('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div/div/div/div[2]/div[1]/span');
         let rawTxt1 = await (await ele1.getProperty('textContent')).jsonValue();
-        
         if (rawTxt1 == 'Caution: This account is temporarily restricted') {
             res.end('restricted');
             return
@@ -24,7 +30,7 @@ app.get('/user/:user', async function (req, res) {
         await browser.close();
     } catch (e) {
         try {
-            let [ele2] = await page.$x(process.env.XPATH2);
+            let [ele2] = await page.$x('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div/div/div/nav/div[2]/div[1]/a/div/span');
             let rawTxt2 = await (await ele2.getProperty('textContent')).jsonValue();
             if (rawTxt2 == 'Tweets') {
                 res.end('working');
@@ -39,4 +45,4 @@ app.get('/user/:user', async function (req, res) {
     }
 
 });
-app.listen(3000);
+app.listen(process.env.PORT || 8080);
