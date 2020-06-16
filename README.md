@@ -7,4 +7,4 @@
 </a>
 
 
-```https://tw-u.herokuapp.com/?user=```
+```https://tw-u.herokuapp.com/?user=@twitterusername```
