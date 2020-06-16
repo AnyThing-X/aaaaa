@@ -5,7 +5,7 @@ http.createServer(async function (req, res) {
     let page = await browser.newPage();
     await page.goto(`https://twitter.com/${query['user']}`, { waitUntil: 'networkidle0' });
     try {
-        let [ele1] = await page.$x(process.env.xpath1);
+        let [ele1] = await page.$x(process.env.XPATH1);
         let rawTxt1 = await (await ele1.getProperty('textContent')).jsonValue();
         if (rawTxt1 == 'Caution: This account is temporarily restricted') {
             res.end('restricted');
@@ -19,7 +19,7 @@ http.createServer(async function (req, res) {
         await browser.close();
     } catch (e) {
         try {
-            let [ele2] = await page.$x(process.env.xpath2);
+            let [ele2] = await page.$x(process.env.XPATH2);
             let rawTxt2 = await (await ele2.getProperty('textContent')).jsonValue();
             if (rawTxt2 == 'Tweets') {
                 res.end('working'); await browser.close();
