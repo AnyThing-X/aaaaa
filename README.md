@@ -6,4 +6,4 @@
 </a>
 
 
-```https://<your_app_name>.herokuapp.com/user/twitterusername```
+```https://<your_app_name>.herokuapp.com?user=twitterusername```
