@@ -24,13 +24,8 @@ http.createServer(async function (req, res) {
     await browser.close();
   } catch (e) {
     try {
-      let [ele2] = await page.$x(process.env.XPATH2);
-      let rawTxt2 = await (await ele2.getProperty('textContent')).jsonValue();
-      if (rawTxt2 == 'Tweets') {
         res.end('working');
         await browser.close();
-        
-      }
     } catch (e) {
       res.end('notfound');
       await browser.close();
