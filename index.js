@@ -25,6 +25,6 @@ http.createServer(async function (req, res) {
             await browser.close();
         }
     } else {
-        res.end('working');
+        res.end('somethingElse');
     }
 }).listen(process.env.PORT || 8080);
